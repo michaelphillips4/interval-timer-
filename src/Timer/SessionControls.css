@@ -1,0 +1,43 @@
+
+.time{
+  font-size: large;
+ 
+}
+
+.time > p{
+ text-align: center;
+}
+
+#button-start {
+  
+  margin: auto;
+  margin-top: 10px;
+  font-weight: bolder;
+  font-size: larger;
+  
+}
+
+
+#button-start[disabled]
+{
+  cursor:wait;
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+
+#button-pause, #button-stop
+{
+  width: 200px;
+}
+
+
+
+@media (max-width: 850px) {
+  #button-start {
+    width: 100%;
+  }
+ 
+   
+}

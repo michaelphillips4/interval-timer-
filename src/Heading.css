@@ -1,0 +1,29 @@
+header {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  background-color: black;
+  color: white;
+
+}
+
+.heading-container {
+  display: flex;
+  justify-content: center;
+}
+
+.lotus{
+  padding: 0 4vw;
+  align-self: center
+}
+
+
+@media (min-width: 1200px) {
+    main {
+        max-width: 800px;
+    }
+
+   
+}
