@@ -1,15 +1,12 @@
-# Meditation Timer
+# Interval Timer
 
-https://www.meditationintervaltimer.co.uk/
 
-https://meditationtimer.orca-tools.com/
+This is a simple timer that allows a number of sections to a Session.
+It plays a sound at the end of each section.
 
-This is a simple timer that allows a number of sections to a meditation.
-It plays a sound at the end of each section of meditation.
+## Saving 
 
-## Saving meditations
-
-You can save a mediation and its sections. They are simply saved in the browsers local storage,
+You can save a session and its sections. They are simply saved in the browsers local storage,
 
 
 ## PWA 
@@ -26,7 +23,7 @@ Be aware of this and always call the `preloadSounds()` method `sounds.ts` before
 
 ### Screen lock request
 
-There is a request in the code to stop the device going into sleep mode. This is released once the meditation completes or is manually stopped. 
+There is a request in the code to stop the device going into sleep mode. This is released once the session completes or is manually stopped. 
 
 
 ## Deployment 

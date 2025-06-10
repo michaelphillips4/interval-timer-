@@ -13,7 +13,8 @@ function Home() {
       </p>
       <p className="center">
         <NavLink to="/timer" className="button">
-          <p> Click here for the Interval Timer</p>
+          Click here for the Interval Timer
+          <br />
          
           <RxLapTimer />
         </NavLink>
