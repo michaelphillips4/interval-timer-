@@ -1,7 +1,4 @@
-import type {
- SessionControlsProps,
-  Section,
-} from "../Utils/typeDefinitions";
+import type { SessionControlsProps, Section } from "../Utils/typeDefinitions";
 import { RxLapTimer } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import { playSound, preloadSounds } from "../Utils/Sounds";
@@ -33,17 +30,15 @@ const SessionControls = (props: SessionControlsProps) => {
               const nextSectionIndex =
                 props.sections.indexOf(currentSection) + 1;
 
-              setCurrentSection(
-                props.sections[nextSectionIndex]
-              );
+              setCurrentSection(props.sections[nextSectionIndex]);
 
               props.setCurrentSectionIndex(nextSectionIndex);
 
               setEndOfSectionSeconds(
                 (x) =>
                   x +
-                  props.sections[nextSectionIndex]?.duration *
-                    60
+                  props.sections[nextSectionIndex]?.duration * 60 +
+                  props.sections[nextSectionIndex].durationSeconds
               );
 
               if (
@@ -73,7 +68,9 @@ const SessionControls = (props: SessionControlsProps) => {
     preloadSounds();
     setIsCompleted(false);
     setWakeLock();
-    setEndOfSectionSeconds(props.sections[0].duration * 60);
+    setEndOfSectionSeconds(
+      props.sections[0].duration * 60 + props.sections[0].durationSeconds
+    );
     console.log("Setting end of section so: ", endOfSectionSeconds);
     setCurrentSection(props.sections[0]);
     props.setCurrentSectionIndex(0);
@@ -82,6 +79,18 @@ const SessionControls = (props: SessionControlsProps) => {
     setSeconds(0);
     const b = document.getElementById("button-start") as HTMLButtonElement;
     b.scrollIntoView();
+  };
+
+  const totalSeconds = () => {
+    return props.sections.reduce(
+      (x, y) => x + y.duration * 60 + y.durationSeconds,
+      0
+    );
+  };
+
+  const totalDisplayString = () => {
+    const t = totalSeconds();
+    return `${Math.floor(t / 60)}:${(t % 60).toString().padStart(2, "0")}`;
   };
 
   const handlePause = () => setIsPaused(!isPaused);
@@ -106,54 +115,48 @@ const SessionControls = (props: SessionControlsProps) => {
         <br />
         Start Session
       </button>
-      {isRunning && (
-        <>
-          <br />
-          <button onClick={handlePause} id="button-resume">
-            {isPaused ? "Resume " : "Pause "} Session
-          </button>
-          <button onClick={handleStop}>Stop Session</button>
-          <div className="time">
-            <p>
-              Current Section{" "}
-              <b>
-                {currentSection &&
-                  props.sections.indexOf(currentSection) + 1}
-              </b>{" "}
-              of {props.sections.length} (Section Duration:
-              {currentSection ? currentSection.duration : 0} mins)
-            </p>
-            <p>
-              Total Session Time{" "}
-              <b>
-                {Math.floor(seconds / 60)}:
-                {(seconds % 60).toString().padStart(2, "0")}
-              </b>{" "}
-              of{" "}
-              {props.sections.reduce(
-                (x, y) => x + y.duration,
-                0
-              )}{" "}
-              mins
-            </p>
 
-            <ProgressBar
-              completed={Math.floor(
-                (seconds /
-                  props.sections.reduce(
-                    (x, y) => x + y.duration * 60,
-                    0
-                  )) *
-                  100
-              )}
-              bgColor="#c8eaf2"
-              baseBgColor="#f4f4f4"
-              labelColor="#070707"
-              animateOnRender
-            />
-          </div>
-        </>
-      )}
+      <>
+        <br />
+        <button onClick={handlePause} id="button-resume">
+          {isPaused ? "Resume " : "Pause "} Session
+        </button>
+        <button onClick={handleStop}>Stop Session</button>
+        <div className="time">
+          <p>
+            Current Section{" "}
+            <b>
+              {currentSection && props.sections.indexOf(currentSection) + 1}
+            </b>{" "}
+            of {props.sections.length} (Section Duration:
+            {currentSection
+              ? `${currentSection.duration}:${currentSection.durationSeconds}`
+              : 0}{" "}
+            mins)
+          </p>
+          <p>
+            Total Session Time{" "}
+            <b>
+              {Math.floor(seconds / 60)}:
+              {(seconds % 60).toString().padStart(2, "0")}
+            </b>{" "}
+            of {totalDisplayString()} mins
+          </p>
+
+          <ProgressBar
+            completed={Math.floor(
+              (seconds /
+                props.sections.reduce((x, y) => x + y.duration * 60, 0)) *
+                100
+            )}
+            bgColor="#c8eaf2"
+            baseBgColor="#f4f4f4"
+            labelColor="#070707"
+            animateOnRender
+          />
+        </div>
+      </>
+
       {isCompleted && <FadeOutText text="Session Completed!" duration={8000} />}
     </>
   );

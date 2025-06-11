@@ -5,6 +5,7 @@ import SessionControls from "./Timer/SessionControls";
 import OpenSaveDialogButton from "./Timer/OpenSaveDialogButton";
 import { useLocation } from "react-router-dom";
 import SaveDialog from "./Timer/SaveDialog";
+import ImageAndQuote from "./ImageAndQuote";
 
 function Timer() {
   const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
@@ -41,7 +42,7 @@ function Timer() {
       />
       <OpenSaveDialogButton saved={saved} 
       setSave={setSave} />
-     
+     <ImageAndQuote />
     </main>
     <SaveDialog saved={saved} setSaved={setSaved} 
       sections={sections} save={save} setSave={setSave} />
